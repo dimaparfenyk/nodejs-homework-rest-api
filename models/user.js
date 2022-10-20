@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 const Joi = require("joi");
-const { handleSaveErrors } = require("../middlewars");
+const { handleSaveErrors } = require("../helpers");
 
 const userSchema = new Schema({
     password: {
@@ -12,15 +12,15 @@ const userSchema = new Schema({
         required: [true, 'Email is required'],
         unique: true,
     },
-    //   subscription: {
-    //     type: String,
-    //     enum: ["starter", "pro", "business"],
-    //     default: "starter"
-    //   },
-    //   token: {
-    //     type: String,
-    //     default: null,
-    //   }
+      subscription: {
+        type: String,
+        enum: ["starter", "pro", "business"],
+        default: "starter"
+      },
+      token: {
+        type: String,
+        default: null,
+      }
 }, { versionKey: false, timestamps: true });
 
 userSchema.post("save", handleSaveErrors);

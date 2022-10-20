@@ -1,28 +1,22 @@
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 const { User } = require("../../models/user");
 const { RequestError } = require("../../helpers");
 
-const { SECRET_KEY } = process.env;
-
-const signUp = async (req, res) => {
-    const { email, password } = req.body;
-
+const signup = async (req, res) => {
+    const { password, email, subscription = "starter"} = req.body;
     const user = await User.findOne({ email });
-    if (!user) {
-        throw RequestError(401, "Email not found");
-    }
-    const passwordCompare = await bcrypt.compare(password, user.password);
-    if (!passwordCompare) {
-        throw RequestError(401, "Password not found")
-    }
-    const payload = {
-        id:user._id
-    }
-    const token = jwt.sign(payload, SECRET_KEY, {expiresIn:"1h"});
-    res.json({
-        token,
-    })
-}
+    if (user) {
+        throw RequestError(409, 'Email in use')
+    };
 
-module.exports=signUp
+const hashPassword = await bcrypt.hash(password, 10)
+
+    const result = await User.create({ password:hashPassword, email});
+    res.status(201).json({
+        password:result.password,
+        email: result.email,
+        subscription,
+    })
+};
+
+module.exports = signup;
