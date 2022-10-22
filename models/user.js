@@ -20,6 +20,10 @@ const userSchema = new Schema({
       token: {
         type: String,
         default: null,
+    },
+      avatarURL: {
+          type: String,
+        required:true,
       }
 }, { versionKey: false, timestamps: true });
 
@@ -28,8 +32,6 @@ userSchema.post("save", handleSaveErrors);
 const registerSchema = Joi.object({
     password: Joi.string().required(),
     email: Joi.string().required(),
-    // subscription: Joi.string().required(),
-    // token: Joi.string().required(),
 });
 
 const loginSchema = Joi.object({
