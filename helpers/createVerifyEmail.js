@@ -4,7 +4,7 @@ const createVerifyEmail = (email,verificationToken) => {
     const mail={
         to: email,
         subject:"Registration is successful",
-        html:`<a target="_blank" href="${BASE_URL}/api/auth/verify/${verificationToken}">Press button for agreed</a>`
+        html:`<a target="_blank" href="${BASE_URL}/api/auth/verify/${verificationToken}">Press button to complete registration</a>`
     }
     return mail;
 }

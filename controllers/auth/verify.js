@@ -9,7 +9,7 @@ const verify = async (req, res) => {
     }
     await User.findByIdAndUpdate(user._id, { verify: true, verificatioinToken: "" });
     res.json({
-        message: "Email verify success"
+        message: "Email verification is successful"
     });
 };
 
